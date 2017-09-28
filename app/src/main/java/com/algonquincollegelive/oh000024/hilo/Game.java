@@ -27,7 +27,7 @@ public final class Game {
     public static final int SUPERIORWIN = 3;
     public static final int EXCELLENTWIN = 4;
 
-    public String messages[] ={"Please Reset!","High","Low","Superior win!","Excellent win!"};
+    public final String messages[] ={"Please Reset!","High","Low","Superior win!","Excellent win!"};
 
 
     public Game(){
@@ -42,8 +42,6 @@ public final class Game {
 //        Integer guessNum = 0;
         int ret =0 ;
         try{
-            // Console.Write("\n\n");
-//            guessNum = ;
             guessCount++;
 
             if (guessNum > secretNumberGenerator.GetCurrentRandomNumber())
