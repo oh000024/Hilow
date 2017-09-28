@@ -1,14 +1,10 @@
 package com.algonquincollegelive.oh000024.hilo;
 
-import android.content.Intent;
-import android.graphics.Interpolator;
-
 /**
  * Created by calcifer on 2017-09-25.
  */
 
-public class RangeRandomNumber  extends RandomNumber
-{
+public class RangeRandomNumber extends RandomNumber {
 
     protected Integer minimum;
     protected Integer maximum;
@@ -19,7 +15,7 @@ public class RangeRandomNumber  extends RandomNumber
         maximum = 1000;
     }
 
-    public RangeRandomNumber (Integer minimum, Integer maximum) {
+    public RangeRandomNumber(Integer minimum, Integer maximum) {
 
         SetMaximun(maximum);
         SetMinmun(minimum);
@@ -27,26 +23,28 @@ public class RangeRandomNumber  extends RandomNumber
     }
 
     public void SetMaximun(Integer maximum) {
-        if(maximum < 1 ){
+        if (maximum < 1) {
             maximum = 1;
         }
         this.maximum = maximum;
 
     }
+
     public void SetMinmun(Integer minimum) {
 
-        if(minimum < 0){
+        if (minimum < 0) {
             minimum = 0;
         }
         this.minimum = minimum;
     }
-    public int GenerateRandomNumber(){
 
-        if(maximum < minimum){
+    public int GenerateRandomNumber() {
+
+        if (maximum < minimum) {
             int temp = minimum;
             minimum = maximum;
             maximum = temp;
-        } else if( maximum == minimum) {
+        } else if (maximum == minimum) {
             return maximum;
         }
         theNumber = random.nextInt((maximum - minimum) + 1);
