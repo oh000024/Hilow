@@ -74,7 +74,7 @@ public final class Game {
         catch (Exception e)//NumberFormatException
         {
             //Console.Write("Invalid input: " + e.Message);
-            ;
+            return 0;
         }
         finally {
 
