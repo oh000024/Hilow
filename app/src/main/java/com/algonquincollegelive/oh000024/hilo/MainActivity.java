@@ -1,19 +1,16 @@
 /**
- *  Guessing a number game
- *  @author Jake Oh (oh000024@algonquinlive.com)
+ * Guessing a number game
+ *
+ * @author Jake Oh (oh000024@algonquinlive.com)
  */
 
 package com.algonquincollegelive.oh000024.hilo;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.text.method.KeyListener;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,36 +19,32 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.InputMismatchException;
-import java.util.StringTokenizer;
-
 public class MainActivity extends Activity {
 
     private static final String ABOUT_DIALOG_TAG = "About Dialog";
-    RangeRandomNumber r = new RangeRandomNumber();
     static Game game = new Game();
+    RangeRandomNumber r = new RangeRandomNumber();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button guessbut = (Button)findViewById(R.id.guessbtn);
-        Button resetbut = (Button)findViewById(R.id.resetbtn);
+        Button guessbut = (Button) findViewById(R.id.guessbtn);
+        Button resetbut = (Button) findViewById(R.id.resetbtn);
 
-        TextView countlabel = (TextView)findViewById(R.id.guessCoundID);
-        TextView label = (TextView)findViewById(R.id.magicnumID);
+        TextView countlabel = (TextView) findViewById(R.id.guessCoundID);
+        TextView label = (TextView) findViewById(R.id.magicnumID);
         label.setText("Magic Number:???");
 
 
         game.InitGame();
-        Toast.makeText(getApplicationContext(), String.valueOf(game.getMagicNumber()),Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), String.valueOf(game.getMagicNumber()), Toast.LENGTH_SHORT).show();
 
-        Toast.makeText(getApplicationContext(),"Start a New Game", Toast.LENGTH_LONG ).show();
+        Toast.makeText(getApplicationContext(), "Start a New Game", Toast.LENGTH_LONG).show();
 
         // Resetting a Config
-        resetbut.setOnClickListener(new Button.OnClickListener(){
+        resetbut.setOnClickListener(new Button.OnClickListener() {
 
             // Click Rrest Button: Initialize all setting
             @Override
@@ -62,13 +55,13 @@ public class MainActivity extends Activity {
                 game.InitGame();
 
                 // Setting Text
-                TextView label = (TextView)findViewById(R.id.magicnumID);
+                TextView label = (TextView) findViewById(R.id.magicnumID);
                 label.setText("Magic Number:???");
-
 
                 // Enable Guess Button
                 Button guessbut = (Button) findViewById(R.id.guessbtn);
                 guessbut.setEnabled(true);
+                guessbut.setText("GUESS");
 
                 EditText inputBox = (EditText) findViewById(R.id.inputBoxID);
                 inputBox.setText("");
@@ -79,30 +72,28 @@ public class MainActivity extends Activity {
         });
 
         // Showing Magic Number
-        resetbut.setOnLongClickListener(new Button.OnLongClickListener(){
+        resetbut.setOnLongClickListener(new Button.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
 
-                TextView label = (TextView)findViewById(R.id.magicnumID);
+                TextView label = (TextView) findViewById(R.id.magicnumID);
                 label.setText(Integer.toString(game.getMagicNumber()));
-                return false;
+                return true;
             }
         });
 
     }
 
-    public boolean CheckValidation(String value){
+    public boolean CheckValidation(String value) {
 
         for (char c : value.toCharArray()) {
 
-            if(!Character.isDigit(c)){
+            if (!Character.isDigit(c)) {
                 return false;
             }
         }
 
         return true;
-
-
     }
 
     @Override
@@ -126,12 +117,18 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     *
+     * @param v
+     * Handle of Guess Button
+     */
     public void handleGuess(View v) {
 
         EditText inputBox = (EditText) findViewById(R.id.inputBoxID);
+        TextView label = (TextView) findViewById(R.id.magicnumID);
         try {
 
-            if(!CheckValidation(inputBox.getText().toString())){
+            if (!CheckValidation(inputBox.getText().toString())) {
                 inputBox.setError("It is not digit! ");
                 inputBox.requestFocus();
                 return;
@@ -140,8 +137,8 @@ public class MainActivity extends Activity {
 
             int userGuess = Integer.parseInt(inputBox.getText().toString());
 
-            if(userGuess > game.MAX_NUM){
-                inputBox.setError("Max Value is 1000.");
+            if (userGuess > game.MAX_NUM) {
+                inputBox.setError("Max Value is 1000.Input a number under 1000.");
                 inputBox.requestFocus();
                 return;
             }
@@ -156,30 +153,33 @@ public class MainActivity extends Activity {
                 guessCount.setText(String.format("Count: %d", game.getCount()));
 
                 if (ret == game.SUPERIORWIN || ret == game.EXCELLENTWIN) {
-                    TextView label = (TextView) findViewById(R.id.magicnumID);
-                    label.setText(Integer.toString(game.getMagicNumber()));
-                    label.setTextSize(40);
+                    ((Button) v).setEnabled(false);
+                    ((Button) v).setText("Please Reset");
+                    label.setText("You won!!" + "The number is " + Integer.toString(game.getMagicNumber()));
+                    label.setTextSize(24);
                     label.setTypeface(null, Typeface.BOLD_ITALIC);
 
-                }
-
-                if (ret == game.RESSET) {
+                }else  if (ret == game.RESSET) {
                     ((Button) v).setEnabled(false);
+                    ((Button) v).setText("Please Reset");
+                    //label.setTextColor(Color.parseColor(Integer.toString(R.color.colorTextDart)));
+                    label.setText("You Lose!!" +  "The number is "+Integer.toString(game.getMagicNumber()));
+                    label.setTextSize(24);
+                    label.setTypeface(null, Typeface.BOLD_ITALIC);
+
                 }
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "UNKNOW ERROR IS HAPPENED\n PLEASE, RESET IT", Toast.LENGTH_SHORT).show();
                 return;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             inputBox.setError("Invalid Input. Input Less then 1000.");
             inputBox.requestFocus();
-        }
-        finally {
+        } finally {
             inputBox.setSelectAllOnFocus(true);
             inputBox.selectAll();
         }
-
 
 
     }
