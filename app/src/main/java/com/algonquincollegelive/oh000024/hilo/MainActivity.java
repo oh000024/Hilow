@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,8 @@ public class MainActivity extends Activity {
     private static final String ABOUT_DIALOG_TAG = "About Dialog";
     static Game game = new Game();
     RangeRandomNumber r = new RangeRandomNumber();
+    ImageView orgImg;
+    ImageView loseImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,9 @@ public class MainActivity extends Activity {
 
         TextView countlabel = (TextView) findViewById(R.id.guessCoundID);
         TextView label = (TextView) findViewById(R.id.magicnumID);
+
+        orgImg = (ImageView)findViewById(R.id.imageView2);
+//        loseImg = (ImageView)findViewById(R.id.);
         label.setText("Magic Number:???");
 
 
